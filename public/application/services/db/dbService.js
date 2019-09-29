@@ -41,7 +41,7 @@ const url = `mongodb://${MONGODB_ADDON_USER}:${MONGODB_ADDON_PASSWORD}@${MONGODB
 
 dbService.start = function () {
     mongoose.Promise = global.Promise;
-    mongoose.connect(url);
+    mongoose.connect(url, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
     var db = mongoose.connection;
     db.on('error', function (err) {
         console.log('connection error:', err.message);
@@ -80,21 +80,21 @@ dbService.createTempUser = function (data, cb) {
                     response.description = "Email already in use";
                     cb('break', response);
                 } else {
-                    req.users.count({}, function (err, count) {
+                    req.users.countDocuments({}, function (err, countDocuments) {
                         if (err) {
                             cb("error", null);
                         }
                         else {
-                            cb(null, count);
+                            cb(null, countDocuments);
                         }
                     });
                 }
             },
-            function (count, cb) {
+            function (countDocuments, cb) {
                 var token = randtoken.generate(40);
                 var date = new Date();
                 var user = new req.users({
-                    userid: count + 1,
+                    userid: countDocuments + 1,
                     userName: data.userName,
                     fullName: data.fullName,
                     email: data.email,
