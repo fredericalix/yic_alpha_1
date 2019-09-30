@@ -18,11 +18,6 @@ const {
     MONGODB_ADDON_DB
   } = process.env;
 
-const smtp_host = process.env.SMTP_HOST || "localhost";
-const smtp_port = process.env.SMTP_PORT || 25;
-const smtp_user = process.env.SMTP_USER;
-const smtp_password = process.env.SMTP_PORT;
-
 dbService.tokenIsValid = function (rq) {
     /*
      req.users.findOne({token: rq.token}, function (err, user) {

@@ -18,7 +18,7 @@ sioService.start = function () {
         conn.on("close", function (code, reason) {
             console.log("Connection closed")
         })
-    }).listen(5040)
+    }).listen(process.env.YIC_WS_PORT || '5040')
 };
 
 sioService.sendHouse = function (data) {
