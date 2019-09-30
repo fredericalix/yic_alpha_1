@@ -12,8 +12,8 @@ const port = process.env.YIC_PORT || 8080;
 
 sioServise.start();
 dbService.start();
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.json());
@@ -61,6 +61,14 @@ app.post(api.TRAFFIC, function (req, res) {
     response.success = true;
     sioServise.sendCar(req.body);
     res.send(response);
+});
+
+app.get(api.STATUS, function (req, res) {
+    console.log('Status OK');
+    res.status(200).send({
+        success: 'true',
+        message: 'Service OK',
+          })
 });
 
 app.get(api.VERIFY, function (req, res) {
